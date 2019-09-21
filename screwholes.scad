@@ -1,20 +1,8 @@
 include <config.scad>
-use <lib/mirror.scad>
+use <lib/layout.scad>
 include <nopscadlib/vitamins/stepper_motor.scad>
 include <nopscadlib/vitamins/stepper_motors.scad>
 
-module linear_repeat(offset, extent, count) {
-  assert(is_num(count), "Count must be passed as a number");
-  //assert(!is_undef(offset) && !is_undef(extent), "Must specify either an offset or an extent");
-  assert(is_undef(offset) && !is_undef(extent), "Cannot specify both extent and offset");
-  //assert(!is_undef(offset) && is_undef(extent), "Cannot specify both extent and offset");
-
-  true_offset = is_undef(offset) ? extent / (count - 1) : offset;
-
-  for(i = [0:count - 1]) {
-    translate(true_offset * i) children();
-  }
-}
 
 //  this really means "slot"
 module longscrewhole(screwhole_length,Mscrew,screwhole_increase) {

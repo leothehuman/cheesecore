@@ -4,7 +4,7 @@ use <config.scad>
 use <screwholes.scad>
 include <nopscadlib/core.scad>
 use <lib/holes.scad>
-use <lib/mirror.scad>
+use <lib/layout.scad>
 use <lib/fan_grill_difference.scad>
 use <electronics_box_corner.scad>
 use <demo.scad>

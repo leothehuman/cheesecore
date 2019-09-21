@@ -6,6 +6,7 @@ use <lib/holes.scad>
 //include <core.scad>
 include <nopscadlib/lib.scad>
 use <screwholes.scad>
+use <lib/layout.scad>
 use <demo.scad>
 
 * translate ([0,0,-4])  projection (cut=true) rotate ([0,180,0]) mirror ([0,1,0]) linear_extrude(height = 6.35, center = true, convexity = 10) import (file = "railcorestls/Simple-idler-FRONT-R1.DXF", convexity=1);

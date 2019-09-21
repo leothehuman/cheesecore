@@ -2,7 +2,7 @@ include <config.scad>
 include <nopscadlib/core.scad>
 include <nopscadlib/lib.scad>
 use <extrusion.scad>
-use <lib/mirror.scad>
+use <lib/layout.scad>
 use <rail.scad>
 use <z-yoke.scad>
 use <coupler.scad>

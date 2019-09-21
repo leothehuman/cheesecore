@@ -1,7 +1,7 @@
 // vim: set nospell:
 include <nopscadlib/core.scad>
 include <nopscadlib/lib.scad>
-use <lib/mirror.scad>
+use <lib/layout.scad>
 use <extrusion.scad>
 use <belts_pulleys.scad>
 use <side_panels.scad>

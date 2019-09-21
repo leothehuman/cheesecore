@@ -5,6 +5,7 @@
 include <config.scad>
 include <nopscadlib/core.scad>
 use <lib/holes.scad>
+use <lib/layout.scad>
 use <screwholes.scad>
 use <demo.scad>
 

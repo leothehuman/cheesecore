@@ -1,9 +1,9 @@
-use <lib/mirror.scad>
+use <lib/layout.scad>
 use <lib/holes.scad>
 include <config.scad>
 use <demo.scad>
 
-panel_outside_radius=panel_radius(); 
+panel_outside_radius=panel_radius();
 
 // FIXME: the profiles use a radius of extrusion/2, should probably use panel_outside_radius everywhere for better visual look.
 // FIXME: Need to add inserts for TPU foot bad
