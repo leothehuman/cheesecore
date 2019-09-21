@@ -10,8 +10,6 @@ module demo() {
   $rail_specs = rails_rc300zl;
   $leadscrew_specs = leadscrew_rc300zl ;
   $bed = bed_rc300;
-  $elecbox = elec_ZL ; //electronics box size and placements
-  $branding_name = "Original ZL";
   $enclosure_size = enclosure_rc300zl;
   children();
   $draft = false;
