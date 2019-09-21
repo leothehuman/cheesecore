@@ -53,6 +53,7 @@ module electronics_box() {
       electronics_cover_panel(box_size_y()+cover_corner_adjust*2, box_size_z()+cover_corner_adjust*2, panelcornerrounding);
 }
   module make_panel(length,electronicscabinet_box_depth,stepper_cables,IEC) {
+    // FIXME: draw this in 2d then extrude
     topscrewhole_x = 4.5 ;
     topscrewhole_y = 15 ;
     IEC_cutout_distance=20; // hole starts at this distance from bottom of panel
@@ -65,7 +66,7 @@ module electronics_box() {
         translate ([length/2,box_depth()/2,0])
           mirror_xy() {
             translate ([length/2-topscrewhole_x,box_depth()/2-topscrewhole_y,0])
-              singlescrewhole(3,0.5);
+              clearance_hole(nominal_d=3, h=50);
           }
         if (stepper_cables) {
           translate ([length/2,0,0])
@@ -76,14 +77,17 @@ module electronics_box() {
         if (IEC == true) {
           translate ([length-IEC_cutout_distance-cut_out_width,15.25,-epsilon/2])
             cube ([cut_out_width,cut_out_depth,acrylic_thickness()+epsilon]);
+          // FIXME: this could just as well be a mirror_x of the two holes
           translate ([length-IEC_cutout_distance-cut_out_width/2,9.65,0])
-            screwholes(row_distance=39.7,numberofscrewholes=2,Mscrew=3,screwhole_increase=0.5);
+            linear_repeat(extent = [0, 39.7, 0], count = 2)
+              mirror([0, 0, 1]) clearance_hole(nominal_d=3, h=25);
         }
       }
     }
   }
 }
   module electronics_cover_panel(x, y, panelcornerrounding) {
+    // FIXME: draw in 2d then extrude
     vent_length = 78 ;
     vent_height = 3 ;
     gap_between_vents = 4.5 ;
@@ -99,8 +103,8 @@ module electronics_box() {
           translate(psu_placement() + [-40,90,0])  {
             for(vents = [0 : 23])
               translate ([0,0-(vents*(vent_height + gap_between_vents)),-20])
-                longscrewhole(vent_length,vent_height,0) ;
-              }
+                longscrewhole(vent_length,vent_height,0);
+          }
           if (laser_cut_vents() == false)
             translate(psu_placement() + [-91/2,-131/2,-40/2])
               cube ([91,131,40]);
@@ -124,20 +128,19 @@ module electronics_box() {
 
 
 demo() {
+  translate([frame_size().x / 2 + panel_thickness(), 0, 0]  )
+      rotate ([0,0,90]) {
 
-translate([frame_size().x / 2 + panel_thickness(), 0, 0]  )
-    rotate ([0,0,90]) {
+    translate ([0,0,0])
+      electronics_box (); // ZL
 
-translate ([0,0,0])
-  electronics_box (); // ZL
+    translate ([500,0,0])
+      electronics_box (); // ZLT
 
-translate ([500,0,0])
-  electronics_box (); // ZLT
+    translate ([0,500,0])
+      electronics_box (); // New ZL
 
-translate ([0,500,0])
-  electronics_box (); // New ZL
-
-translate ([500,500,0])
-  electronics_box (); // ZLT
-}
+    translate ([500,500,0])
+      electronics_box (); // ZLT
+  }
 }

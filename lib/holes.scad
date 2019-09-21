@@ -9,6 +9,14 @@ module hole_with_counterbore(d, h, counterbore_d) {
   cylinder(d=cbore_d, h=100);
 }
 
+module hole(d, h) {
+  translate([0,0, -h]) cylinder(d=d, h=h+epsilon);
+}
+
+module clearance_hole(nominal_d, h) {
+  hole(d=clearance_hole_size(nominal_d), h=h);
+}
+
 module clearance_hole_with_counterbore(nominal_d, h, d) {
   assert(!(nominal_d == undef && d == undef), "Must pass d or nominal_d");
   assert(!(nominal_d != undef && d !=undef), "Can only pass d or nominal_d");
