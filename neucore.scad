@@ -175,13 +175,32 @@ module customcore(position = [0, 0, 0]) {
   $enclosure_size = enclosure_custom;
   validate();
   frame();
-  all_side_panels();
+  *all_side_panels();
   *hinges();
   *doors();
-  feet(height=50);
-  kinematics(position);
+  *feet(height=50);
+  *kinematics(position);
   *electronics();
-  top_enclosure();
+
+  translate ([0, 0, frame_size().z / 2 + enclosure_size().z/2 - extrusion_width() + 42]) {
+    enclosure_frame();
+    *enclosure_side_panels();
+    *enclosure_hinges();
+    *enclosure_handle();
+  }
+  printed_interface_arrangement();
+
+}
+
+//FIXME 45 is L height from topenclosure part
+module top_enclosure() {
+  translate ([0, 0, frame_size().z / 2 + enclosure_size().z/2 - extrusion_width() + 42]) {
+    enclosure_frame();
+    %enclosure_side_panels();
+    enclosure_hinges();
+    enclosure_handle();
+  }
+  printed_interface_arrangement();
 }
 
 module enclosure() {
@@ -207,20 +226,11 @@ module kinematics(position) {
   y_carriage(position);
 }
 
-//FIXME 45 is L height from topenclosure part
-module top_enclosure() {
-  translate ([0, 0, frame_size().z / 2 + enclosure_size().z/2 - extrusion_width() + 42]) {
-    enclosure_frame();
-     %enclosure_side_panels();
-    *encolosure_hinges();
-    //handle();
-  }
-  printed_interface_arrangement();
-}
+
 
 customcore(position = [150, 150, 130]);
 *translate([0, 800, 0]) rc300zl(position = [80, 90, 30]);
-translate([800, 0, 0]) rc300zlt(position = [150, 150, 130]);
+*translate([800, 0, 0]) rc300zlt(position = [150, 150, 130]);
 *translate([0, 800, 0]) dancore(position = [150, 150, 130]);
 *translate([0, 800, 0]) rc300zlv2(position = [80, 90, 30]);
 *translate([800, 800, 0]) rc300zl40();
