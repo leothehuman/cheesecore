@@ -88,7 +88,7 @@ module bottom_panel() {
 
       // Deboss a name in the bottom panel
       deboss_depth = 3;
-      translate([0, -frame_size().y/2 + 50, panel_thickness() - deboss_depth + epsilon])
+      translate([0, -frame_size().y/2 + extrusion_width() + 35, panel_thickness() - deboss_depth + epsilon])
         linear_extrude(deboss_depth)
           text($branding_name, halign="center", size=35);
     }
@@ -109,8 +109,8 @@ module front_panel() {
       translate ([front_window_offset().x, front_window_offset().y, panel_thickness() / 2])
         rounded_rectangle([front_window_size().x, front_window_size().y, panel_thickness() + 2 * epsilon], front_window_radius());
   }
-// DEBUG cube
-*translate([-frame_size().x / 2 , -frame_size().z / 2 , panel_thickness()])  cube ([10,frame_size().z,10]);
+  // DEBUG cube
+  *translate([-frame_size().x / 2 , -frame_size().z / 2 , panel_thickness()])  cube ([10,frame_size().z,10]);
 }
 
 module hinges() {
