@@ -13,7 +13,8 @@ include <config.scad>
 use <validation.scad>
 use <door_hinge.scad>
 use <demo.scad>
-
+ use <nopscadlib/printed/handle.scad>
+ 
 $fullrender=false;
 
 demo(){
@@ -197,4 +198,12 @@ module enclosure_fitting(piece_length1,piece_length2,acrylic_thickness,L_height,
         circle(d=L_fillet_size); // "crook of L" fillet removal
     }
   }
+}
+
+module enclosure_handle()
+
+{
+color(printed_part_color()) render ()  translate ([0 , -enclosure_size().y / 2 - acrylic_thickness() , 0]) rotate ([90,0,0])
+handle_assembly();
+
 }
