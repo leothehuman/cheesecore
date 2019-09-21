@@ -98,8 +98,8 @@ module bottom_panel() {
 module front_panel() {
   assert(front_window_size().x <= frame_size().x - 2 * extrusion_width(), str("Window cannot overlap extrusion in X: "));
   assert(front_window_size().y <= frame_size().z - 2 * extrusion_width(), "Window cannot overlap extrusion in Z");
-  // FIXME to make this assert work again
-  //assert(Zwindowspacingbottom >= extrusion_width(), "Window cannot overlap extrusion in Z");
+  min_y_gap = (frame_size().z - front_window_size().y) / 2 - abs(front_window_offset().y);
+  assert(min_y_gap >= extrusion_width(), "Window cannot overlap extrusion in Z");
 
   difference() {
     panel(frame_size().x, frame_size().z);
@@ -107,7 +107,7 @@ module front_panel() {
     //remove window in front panel
     color(panel_color_holes())
       translate ([front_window_offset().x, front_window_offset().y, panel_thickness() / 2])
-      rounded_rectangle([front_window_size().x, front_window_size().y, panel_thickness() + 2 * epsilon], front_window_radius());
+        rounded_rectangle([front_window_size().x, front_window_size().y, panel_thickness() + 2 * epsilon], front_window_radius());
   }
 // DEBUG cube
 *translate([-frame_size().x / 2 , -frame_size().z / 2 , panel_thickness()])  cube ([10,frame_size().z,10]);

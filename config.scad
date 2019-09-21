@@ -29,7 +29,7 @@ rails_custom  = [[400, MGN12], [400, MGN12], [400, MGN12]];
 //                            name       sizeXY   depth thick
 front_window_zl      = ["WINDOW_TYPE", [420, 385], 10, [0, 5]];
 front_window_zlt     = ["WINDOW_TYPE", [410, 645], 10, [0, 0]];
-front_window_custom  = ["WINDOW_TYPE", [420, 385], 10, [0, 5]];
+front_window_custom  = ["WINDOW_TYPE", [420, 385], 10, [0, 0]];
 
 // ELECTRONICS BOX ALONG WITH  & ELECTRONICS & CABLE PLACEMENT -  placement of parts on right panel with X/Y as centre
 //               name       sizeX  sizeY  depth thick, lasercut cable_bundle    DuetE            Duex              PSU        SSR
