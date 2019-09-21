@@ -54,10 +54,11 @@ translate([frame_size().x / 2 - extrusion_width(), 0, frame_size().z / 2]){
 
 module y_carriage(position) {
   // messy bit!
-  Yrail_vector = [-rail_lengths().x/2 + position.x, 0, frame_size().z / 2 - extrusion_width() / 2]; // Since a lot of things are tied to the Y-rail, I thought it might be worth investigating a base vector to simplify the code.
+  // FIXME: the +47 is a fudge to make things align
+  Yrail_vector = [-rail_lengths().x/2 + position.x + 47, 0, frame_size().z / 2 - extrusion_width() / 2]; // Since a lot of things are tied to the Y-rail, I thought it might be worth investigating a base vector to simplify the code.
 
   // HOTEND
-  *translate(Yrail_vector + [-35, position.y-150, 5]) // FIXME: arbitary move to look decentish
+  translate(Yrail_vector + [-35, position.y-150, 5]) // FIXME: arbitary move to look decentish
     rotate([0,0,180]) hot_end(E3Dv6, naked=true);
 
   // Y-RAIL
@@ -67,12 +68,11 @@ module y_carriage(position) {
       rail_wrapper(rail_profiles().y, rail_lengths().y, position = position.y-150);
 
   // X-CARRIAGE
-  // 12 = rail size
-  xcarriagevector = [-rail_lengths().x/2 + position.x, frame_size().y / 2 - extrusion_width() , frame_size().z / 2 - extrusion_width() / 2];
-  *mirror_y()
+  // FIXME: the +17.5 in x is an approximation
+  xcarriagevector = [-rail_lengths().x/2 + position.x + 17.5, frame_size().y / 2 - extrusion_width() - carriage_height(rail_profiles().x), frame_size().z / 2 - extrusion_width() / 2];
+  mirror_y()
     translate (xcarriagevector)
       x_carriage();
-      //+ [13,-12,0]
 }
 
 module rc300zl(position = [0, 0, 0]) {
@@ -89,7 +89,7 @@ module rc300zl(position = [0, 0, 0]) {
   enclosure();
   kinematics(position);
   electronics();
-  top_enclosure();
+  *top_enclosure();
 }
 
 
@@ -218,9 +218,9 @@ module top_enclosure() {
   printed_interface_arrangement();
 }
 
-customcore(position = [150, 150, 130]);
-*translate([0, 800, 0]) rc300zl(position = [80, 90, 30]);
-translate([800, 0, 0]) rc300zlt(position = [150, 150, 130]);
+*customcore(position = [150, 150, 130]);
+translate([0, 800, 0]) rc300zl(position = [80, 90, 30]);
+*translate([800, 0, 0]) rc300zlt(position = [150, 150, 130]);
 *translate([0, 800, 0]) dancore(position = [150, 150, 130]);
 *translate([0, 800, 0]) rc300zlv2(position = [80, 90, 30]);
 *translate([800, 800, 0]) rc300zl40();

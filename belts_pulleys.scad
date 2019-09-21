@@ -1,6 +1,6 @@
 // vim: set nospell:
 include <config.scad>
-include <nopscadlib/core.scad>
+use <nopscadlib/core.scad>
 include <nopscadlib/lib.scad>
 use <demo.scad>
 
@@ -14,10 +14,9 @@ module corexy_belts(position = [0, 0]) {
   x_carriage_pulley_offset = motor_pulley_link() + 0; //FIXME parametric but not in the right place
 
   // x/y coordinate of the x-carriage stack;
-  carriage_stack = [position.x, x_carriage_pulley_offset];
-// rail_height(type)
-// carriage_height(type)
-// carriage_clearance(type)
+  // FIXME: the +62 here is an approximation to make things look decent
+  carriage_stack = [position.x + 62, x_carriage_pulley_offset];
+
   // Location of steppers in x
   // FIXME: the stepper offset and idler offset is made up
   stepper_offset = NEMA_width(NEMAtype())/2  ;
@@ -80,14 +79,10 @@ module corexy_belts(position = [0, 0]) {
     belt(type=belt, points=path, gap=10, gap_pt=[0,  belt_pitch_height(belt) - belt_thickness(belt) / 2]);
 
   }
-function aluminium_idler_mount_test() = [idler_offset_inner + extrusion_width()/2 - frame_size().x / 2 - stepper_offset, -x_carriage_pulley_offset - pulley_pr(GT2x20_plain_idler) - pulley_pr(GT2x16_pulley)];
-echo (aluminium_idler_mount_test());
+  function aluminium_idler_mount_test() = [idler_offset_inner + extrusion_width()/2 - frame_size().x / 2 - stepper_offset, -x_carriage_pulley_offset - pulley_pr(GT2x20_plain_idler) - pulley_pr(GT2x16_pulley)];
+  echo (aluminium_idler_mount_test());
 }
 
-
-
-
 demo() {
-corexy_belts([0, 0]);
-
+  corexy_belts([0, 0]);
 }
