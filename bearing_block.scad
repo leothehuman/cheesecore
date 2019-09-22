@@ -2,16 +2,17 @@ include <config.scad>
 use <lib/layout.scad>
 use <screwholes.scad>
 use <demo.scad>
+use <lib/holes.scad>
 include <nopscadlib/core.scad>
 include <nopscadlib/lib.scad>
 include <nopscadlib/vitamins/stepper_motors.scad>
 
-bearing_radius = 11 + 0.1 ;  //  0.1 for hole shrinkage use polyholes
-counter_bore_radius = 3.5 ;
-leadscrew = 8 ;  //use polyhole
-leg_height = 35 ;
-block_height = 45 ;
-block_xy = 39 ;  // 39 is the existing blocks, but the counterbores break the outside wall.
+bearing_radius = 11 + 0.1;  //  0.1 for hole shrinkage use polyholes FIXME: this should not need a fudge factor, should probably be a diameter
+counter_bore_d = 7;
+leadscrew = 8;  //use polyhole
+leg_height = 35;
+block_height = 45;
+block_xy = 39;  // 39 is the existing blocks.  This could probably be 40 and still assemble just fine, assuming panels are cut correctly
 
 module bearing_block()
 {
@@ -36,10 +37,10 @@ difference(){
      //motor holes
     translate([0, 0, -500]) cylinder(h=1000, d = leadscrew);  //lead screw size
 
-     translate([0, 0, (block_height/2)-7]) cylinder(h=14, r=bearing_radius, center=false);  // bearing
+    translate([0, 0, (block_height/2)-7]) cylinder(h=14, r=bearing_radius, center=false);  // bearing
 
-motor_holes();
-}
+    motor_holes();
+  }
 }
 
 module bearing_block_v2()
@@ -74,8 +75,8 @@ difference(){
 
      translate([0, 0, (block_height/2)-7]) cylinder(h=14, r=bearing_radius, center=false);  // bearing
 
-motor_holes();
-}
+    motor_holes();
+  }
 }
 
 
@@ -109,32 +110,33 @@ difference(){
      //motor holes
     translate([0, 0, -500]) cylinder(h=1000, d = leadscrew);  //lead screw size
 
-     translate([0, 0, (block_height/2)-7]) cylinder(h=14, r=bearing_radius, center=false);  // bearing
+    translate([0, 0, (block_height/2)-7]) cylinder(h=14, r=bearing_radius, center=false);  // bearing
 
-motor_holes();
-
+    motor_holes();
+  }
 }
-}
-
 
 module motor_holes()
 {
-     translate([0, 0, -(block_height/2)-7]) cylinder(h=20, d=NEMA_boss_radius(NEMA17) * 2 + 1); // motor hole
-
-     mirror_xy() {
-      translate([ NEMA_hole_pitch(NEMA17)/2, NEMA_hole_pitch(NEMA17)/2, -500 ])
-        // FIXME: this diameter should be driven by stepper size. (Looked in modules, there is no definition for this.-dan)
-        // FIXME this needs to be a hole() not a cylinder
-        cylinder(d=3.3, h=1000);
-        //counter-hore
-
-     translate([ NEMA_hole_pitch(NEMA17)/2, NEMA_hole_pitch(NEMA17)/2, 20 ])
-        cylinder(r=counter_bore_radius, h=20 + 2 * epsilon);
-    }
+  translate([0, 0, -(block_height/2)-7]) cylinder(h=20, d=NEMA_boss_radius(NEMA17) * 2 + 1); // motor hole
+    mirror_xy() {
+      translate([ NEMA_hole_pitch(NEMA17)/2, NEMA_hole_pitch(NEMA17)/2, 20 ]) {
+        // through-hole
+        translate([0,0, 10]) clearance_hole(nominal_d = 3, h=100);
+        // rather than a true counterbore, carve out the whole corner
+        linear_extrude(10) {
+          hull() {
+            circle(d=counter_bore_d);
+            translate([0, counter_bore_d]) square(counter_bore_d, center = true);
+            translate([counter_bore_d, 0]) square(counter_bore_d, center = true);
+          }
+        }
+      }
+   }
 }
 
 demo() {
-bearing_block();
-*translate ([50,0,0]) bearing_block_v2();
-translate ([100,0,0]) bearing_block_v3();
+  bearing_block();
+  *translate ([50,0,0]) bearing_block_v2();
+  translate ([100,0,0]) bearing_block_v3();
 }

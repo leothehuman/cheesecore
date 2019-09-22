@@ -5,13 +5,12 @@ use <demo.scad>
 
 panel_outside_radius=panel_radius();
 
-// FIXME: the profiles use a radius of extrusion/2, should probably use panel_outside_radius everywhere for better visual look.
 // FIXME: Need to add inserts for TPU foot bad
 // FIXME: Could add some fileting?
 
 // Modeled this foot upside down both for easier printing and because it's a little easier to think about.
 module inverted_foot(height) {
-  extrusion = extrusion_width($extrusion_type);
+  extrusion = extrusion_width();
   assert(extrusion != undef, "Unable to figure out extrusion size");
   color(printed_part_color())
     difference() {
@@ -41,8 +40,6 @@ module inverted_foot(height) {
         linear_extrude(height) foot_base_profile(extrusion);
       }
 
-      // FIXME: Need to add counterbore for mounting screws
-      // FIXME:  This should be modeled using a hole and not a cylinder
       // z=5 is the thickness of the straight-walled base
       translate([panel_screw_offset(), extrusion/2, 5]) clearance_hole_with_counterbore(h=5+epsilon, nominal_d=3);
       translate([extrusion/2, panel_screw_offset(), 5]) clearance_hole_with_counterbore(h=5+epsilon, nominal_d=3);
@@ -50,20 +47,21 @@ module inverted_foot(height) {
 }
 
 module foot_base_profile(extrusion_width) {
-  // FIXME: what is the magic 15 in these?
   assert(extrusion_width != undef, "Must specify extrusion_width");
+
+  reduce_size = 15; //how far in from the panel screw to taper the foot
   hull() {
     translate([panel_outside_radius, panel_outside_radius])
       circle(r=panel_outside_radius);
 
-    translate([panel_screw_offset()-15, panel_outside_radius])
+    translate([panel_screw_offset() - reduce_size, panel_outside_radius])
       circle(r=panel_outside_radius);
-    translate([panel_screw_offset()-15, extrusion_width- panel_outside_radius])
+    translate([panel_screw_offset() - reduce_size, extrusion_width- panel_outside_radius])
       circle(r=panel_outside_radius);
 
-    translate([panel_outside_radius, panel_screw_offset()-15])
+    translate([panel_outside_radius, panel_screw_offset() - reduce_size])
       circle(r=panel_outside_radius);
-    translate([extrusion_width - panel_outside_radius, panel_screw_offset()-15])
+    translate([extrusion_width - panel_outside_radius, panel_screw_offset() - reduce_size])
       circle(r=panel_outside_radius);
   }
 }
@@ -82,7 +80,7 @@ module feet(height = 50) {
 }
 
 demo() {
-// feet();
-foot(height=50);
-//foot_base_profile(15);
+  // feet();
+  foot(height=50);
+  //foot_base_profile(15);
 }
