@@ -2,7 +2,7 @@
 include <config.scad>
 use <extrusion.scad>
 use <corner_cube.scad>
-use <lib/mirror.scad>
+use <lib/layout.scad>
 
 module z_extrusions() {
   mirror_xy() {

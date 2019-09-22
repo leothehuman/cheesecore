@@ -5,7 +5,7 @@ include <demo.scad>
 
 include <nopscadlib/core.scad>
 include <nopscadlib/lib.scad>
-use <lib/mirror.scad>
+use <lib/layout.scad>
 use <extrusion.scad>
 use <top_enclosure_side_panels.scad>
 use <top_enclosure_frame.scad>

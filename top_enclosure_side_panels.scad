@@ -3,7 +3,7 @@ include <config.scad>
 use <nopscadlib/vitamins/stepper_motor.scad>
 include <nopscadlib/vitamins/stepper_motors.scad>
 use <lib/holes.scad>
-use <lib/mirror.scad>
+use <lib/layout.scad>
 use <door_hinge.scad>
 use <screwholes.scad>
 use <demo.scad>

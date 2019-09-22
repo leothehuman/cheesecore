@@ -126,7 +126,6 @@ module electronics_box() {
     }
   }
 
-
 demo() {
   translate([frame_size().x / 2 + panel_thickness(), 0, 0]  )
       rotate ([0,0,90]) {
