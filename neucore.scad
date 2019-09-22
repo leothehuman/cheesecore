@@ -46,7 +46,8 @@ translate([frame_size().x / 2 - extrusion_width(), 0, frame_size().z / 2]){
       aluminium_motor_mount();
     translate([extrusion_width() + NEMA_width(NEMAtype())/2, motor_pulley_link() + extrusion_width()/2 + 3.5, 0])  //FIXME what is 3.5?
 
-      NEMA(NEMAtype());
+      // rotate() is to get the wiring facing toward electronics box
+      rotate([0, 0, 180]) NEMA(NEMAtype());
     }
   }
 

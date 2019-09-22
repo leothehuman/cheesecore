@@ -21,10 +21,12 @@ module clearance_hole_with_counterbore(nominal_d, h, d) {
   assert(!(nominal_d == undef && d == undef), "Must pass d or nominal_d");
   assert(!(nominal_d != undef && d !=undef), "Can only pass d or nominal_d");
 
+echo("DEBUG: ", $fn, " - ", $fs, " - ", $fa);
+
   if(nominal_d != undef)
     hole_with_counterbore(d=clearance_hole_size(nominal_d), h = h, counterbore_d = button_counterbore_hole_size(nominal_d));
-   else
-     hole_with_counterbore(d=d, h = h, counterbore_d = button_counterbore_hole_size(d));
+  else
+    hole_with_counterbore(d=d, h = h, counterbore_d = button_counterbore_hole_size(d));
 }
 
 function clearance_hole_size(nominal_d) = lookup(nominal_d, [

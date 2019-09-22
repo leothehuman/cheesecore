@@ -3,14 +3,15 @@ use <lib/layout.scad>
 use <lib/holes.scad>
 use <demo.scad>
 
-// FIXME: describe the origin of this part ... and decide if it's right.  There isn't an obvious "right" place for this one
+// The origin of this part is on the flat-side (i.e., printed down) at the corner of the printed part where the extrusion sits.
+// There was no great/obvious way to orient this part - it's complicated.
 module z_bracket(extrusion_type) {
   leg_length = extrusion_width()*4;
   thickness = extrusion_width()-5;
   corner_radius = 2;
 
   color(printed_part_color())
-    //render() // FIXME: this render() prevents an artifact in the assembled printer, but model seems put together fine on it's own?
+    render() // FIXME: this render() prevents an artifact in the assembled printer, but model seems put together fine on it's own?
       difference() {
         union() {
 
@@ -36,22 +37,19 @@ module z_bracket(extrusion_type) {
           }
 
           // fillets
-          union() {
-            translate([extrusion_width(), -epsilon, thickness+extrusion_width()])
-              rotate([-90,0,0])
-                cylinder(r=extrusion_width(), h=leg_length);
-            translate([-extrusion_width(), thickness+ extrusion_width(), -extrusion_width() - epsilon])
+          translate([extrusion_width(), -epsilon, thickness+extrusion_width()])
+            rotate([-90,0,0])
               cylinder(r=extrusion_width(), h=leg_length);
-            translate([extrusion_width() + epsilon, thickness + extrusion_width(), thickness+extrusion_width()])
-              rotate([-90,0,90])
-                cylinder(r=extrusion_width(), h=leg_length);
-            translate([extrusion_width() + epsilon, thickness + extrusion_width(), -extrusion_width()])
-              rotate([-90,0,90])
-                cylinder(r=extrusion_width(), h=leg_length);
-          }
+          translate([-extrusion_width(), thickness+ extrusion_width(), -extrusion_width() - epsilon])
+            cylinder(r=extrusion_width(), h=leg_length);
+          translate([extrusion_width() + epsilon, thickness + extrusion_width(), thickness+extrusion_width()])
+            rotate([-90,0,90])
+              cylinder(r=extrusion_width(), h=leg_length);
+          translate([extrusion_width() + epsilon, thickness + extrusion_width(), -extrusion_width()])
+            rotate([-90,0,90])
+              cylinder(r=extrusion_width(), h=leg_length);
 
         //screwholes removed from entire unioned object
-        // FIXME: at some point we lost the counterbores on these screws
         translate([extrusion_width()/2, extrusion_width()*1.5, thickness])
           linear_repeat(extent = [0, extrusion_width() * 2, 0], count = 3)
             clearance_hole_with_counterbore(nominal_d=3, h=thickness + epsilon);
