@@ -11,6 +11,7 @@ module demo() {
   $leadscrew_specs = leadscrew_rc300zl ;
   $bed = bed_rc300;
   $enclosure_size = enclosure_rc300zl;
-  children();
   $draft = false;
+
+  children();
 }
