@@ -74,6 +74,13 @@ module aluminium_motor_mount(screwsize=3, motoradjustspacing=6) {
       raw_aluminium_motor_mount(screwsize=screwsize, motoradjustspacing=motoradjustspacing);
 }
 
+module steel_2020_motor_mount() {
+// https://ooznest.co.uk/product/nema17-motor-mounting-plate/
+color(alum_part_color())
+    translate([40, -2.5, 0]) rotate([90, 0, 270])
+      import("purchased_parts/NEMA17mountingplate.stl", convexity=3);
+}
+
 demo() {
   mirror([0,1,0])
     translate ([0,-60,0]) aluminium_motor_mount(screwsize=3,motoradjustspacing=6) ; //mirrored version

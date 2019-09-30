@@ -10,6 +10,8 @@ use <door_hinge.scad>
 use <screwholes.scad>
 use <demo.scad>
 
+//FIXME add exhaust on back for side panels
+
 module panel(x, y) {
   assert(x != undef, "Must specify panel x dimension");
   assert(y != undef, "Must specify panel y dimension");

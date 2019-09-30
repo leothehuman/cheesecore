@@ -39,14 +39,13 @@ module xy_motion(position = [0, 0, 0]) {
         aluminium_idler_mount();
     }
   }
-// MOTOR MOUNTS
+// MOTORS AND MOTOR MOUNTS
 translate([frame_size().x / 2 - extrusion_width(), 0, frame_size().z / 2]){
   mirror_y() {
     translate([0, frame_size().y / 2 - extrusion_width(), 0])
       aluminium_motor_mount();
-    translate([extrusion_width() + NEMA_width(NEMAtype())/2, motor_pulley_link() + extrusion_width()/2 + 3.5, 0])  //FIXME what is 3.5?
-
-      // rotate() is to get the wiring facing toward electronics box
+      //steel_2020_motor_mount();
+    translate([panel_thickness() + extrusion_width() + NEMA_width(NEMAtype())/2, motor_pulley_link() + extrusion_width()/2 + 3.5, 0])  //FIXME what is 3.5?
       rotate([0, 0, 180]) NEMA(NEMAtype());
     }
   }
@@ -89,7 +88,7 @@ module rc300zl(position = [0, 0, 0]) {
   validate();
   enclosure();
   kinematics(position);
-  electronics();
+  *electronics();
   *top_enclosure();
 }
 
@@ -106,9 +105,9 @@ module rc300zlv2(position = [0, 0, 0]) {
   $enclosure_size = enclosure_rc300zl;
   validate();
   enclosure();
-  *kinematics(position);
+  kinematics(position);
   electronics();
-  *top_enclosure();
+  top_enclosure();
 }
 
 
@@ -166,7 +165,7 @@ module dancore(position = [0, 0, 0]) {
 // CUSTOMCORE FOR DEBUGGING/QUICK RENDERING
 module customcore(position = [0, 0, 0]) {
   $front_window_size = front_window_custom;
-  $extrusion_type = extrusion30;
+  $extrusion_type = extrusion15;
   $frame_size = frame_rc300_custom;
   $rail_specs = rails_custom;
   $leadscrew_specs = leadscrew_rc_custom;
@@ -182,14 +181,14 @@ module customcore(position = [0, 0, 0]) {
   feet(height=50);
   kinematics(position);
   *electronics();
-  top_enclosure();
+  *top_enclosure();
 }
 
 module enclosure() {
   frame();
   all_side_panels();
-  *hinges();
-  * doors();
+  hinges();
+  doors();
   feet(height=50);
  }
 
@@ -213,15 +212,15 @@ module top_enclosure() {
   translate ([0, 0, frame_size().z / 2 + enclosure_size().z/2 - extrusion_width() + 42]) {
     enclosure_frame();
      %enclosure_side_panels();
-    *encolosure_hinges();
+    encolosure_hinges();
     //handle();
   }
   printed_interface_arrangement();
 }
 
-*customcore(position = [150, 150, 130]);
-translate([0, 800, 0]) rc300zl(position = [80, 90, 30]);
+customcore(position = [150, 150, 130]);
+*translate([0, 800, 0]) rc300zl(position = [80, 90, 30]);
 *translate([800, 0, 0]) rc300zlt(position = [150, 150, 130]);
 *translate([0, 800, 0]) dancore(position = [150, 150, 130]);
-*translate([0, 800, 0]) rc300zlv2(position = [80, 90, 30]);
+*translate([800, 800, 0]) rc300zlv2(position = [80, 90, 30]);
 *translate([800, 800, 0]) rc300zl40();

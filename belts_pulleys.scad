@@ -19,13 +19,16 @@ module corexy_belts(position = [0, 0]) {
 
   // Location of steppers in x
   // FIXME: the stepper offset and idler offset is made up
-  stepper_offset = NEMA_width(NEMAtype())/2  ;
+  stepper_offset = NEMA_width(NEMAtype())/2 + panel_thickness() ;
   // 34 for stepperoffset extrusion15
 
   // *** THESE ARE DEPENDENT ON THE IDLER POSITION
+  idler_offset_inner =  40;  //tie this to the pulley location - these are relative to the centre of the extrusion on the left side
+  idler_offset_outer =  40;  //tie this to the pulley location - these are relative to the centre of the extrusion on the left side
+/*
   idler_offset_inner =  0;  //tie this to the pulley location - these are relative to the centre of the extrusion on the left side
   idler_offset_outer =  0;  //tie this to the pulley location - these are relative to the centre of the extrusion on the left side
-
+*/
   //stepper_location = extrusion_length.x/2 + stepper_offset;
 
   // Where to position the crossover
