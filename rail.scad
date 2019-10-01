@@ -1,7 +1,7 @@
 include <config.scad>
 include <nopscadlib/core.scad>
 include <nopscadlib/lib.scad>
-use <lib/mirror.scad>
+use <lib/layout.scad>
 use <demo.scad>
 
 module rail_wrapper(rail_type, length, include_screws=false, position=0)
@@ -37,14 +37,18 @@ module x_rails(position = 0) {
 
   rail_type = rail_profiles().x;
   rail_length = rail_lengths().x;
-translate([0, 0, frame_size().z / 2 - extrusion_width() / 2 ])
-  mirror_y()
+  translate([0, 0, frame_size().z / 2 - extrusion_width() / 2 ])
   {
-    translate ([0, frame_size().y / 2 - extrusion_width(), 0]) rotate([90, 0, 0]) rail_wrapper(rail_type, rail_length, position=-rail_travel(rail_type, rail_length) / 2 + position + 10);
+    mirror_y()
+    {
+      translate ([0, frame_size().y / 2 - extrusion_width(), 0])
+        rotate([90, 0, 0])
+          rail_wrapper(rail_type, rail_length, position=-rail_travel(rail_type, rail_length) / 2 + position);
+    }
   }
 }
 
 demo() {
-translate([0, 0, -frame_size().z / 2 + extrusion_width() / 2 ])
-  x_rails(position=0);
+  translate([0, 0, -frame_size().z / 2 + extrusion_width() / 2 ])
+    x_rails(position=0);
 }

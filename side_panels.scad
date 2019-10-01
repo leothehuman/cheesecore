@@ -5,10 +5,12 @@ include <nopscadlib/core.scad>
 include <nopscadlib/lib.scad>
 include <nopscadlib/vitamins/stepper_motors.scad>
 use <lib/holes.scad>
-use <lib/mirror.scad>
+use <lib/layout.scad>
 use <door_hinge.scad>
 use <screwholes.scad>
 use <demo.scad>
+
+//FIXME add exhaust on back for side panels
 
 module panel(x, y) {
   assert(x != undef, "Must specify panel x dimension");
@@ -66,20 +68,8 @@ module panel_mounting_screws(x, y)
   }
 }
 
-
 // BOTTOM PANEL
 module bottom_panel() {
-  module motor_holes() {
-    translate([0, 0, -epsilon])
-      cylinder(h=panel_thickness() + 2 * epsilon, d=NEMA_boss_radius(NEMA17) * 2 + 1);
-    mirror_xy() {
-      translate([ NEMA_hole_pitch(NEMA17)/2, NEMA_hole_pitch(NEMA17)/2, -epsilon ])
-        // FIXME: this diameter should be driven by stepper size. (Looked in modules, there is no definition for this.-dan)
-        // FIXME this needs to be a hole() not a cylinder
-        cylinder(d=3.3, h=panel_thickness() + 2 * epsilon);
-    }
-  }
-
   difference() {
     panel(frame_size().x, frame_size().y);
 
@@ -97,7 +87,7 @@ module bottom_panel() {
 
       // Deboss a name in the bottom panel
       deboss_depth = 3;
-      translate([0, -frame_size().y/2 + 50, panel_thickness() - deboss_depth + epsilon])
+      translate([0, -frame_size().y/2 + extrusion_width() + 35, panel_thickness() - deboss_depth + epsilon])
         linear_extrude(deboss_depth)
           text($branding_name, halign="center", size=35);
     }
@@ -107,8 +97,8 @@ module bottom_panel() {
 module front_panel() {
   assert(front_window_size().x <= frame_size().x - 2 * extrusion_width(), str("Window cannot overlap extrusion in X: "));
   assert(front_window_size().y <= frame_size().z - 2 * extrusion_width(), "Window cannot overlap extrusion in Z");
-  // FIXME to make this assert work again
-  //assert(Zwindowspacingbottom >= extrusion_width(), "Window cannot overlap extrusion in Z");
+  min_y_gap = (frame_size().z - front_window_size().y) / 2 - abs(front_window_offset().y);
+  assert(min_y_gap >= extrusion_width(), "Window cannot overlap extrusion in Z");
 
   difference() {
     panel(frame_size().x, frame_size().z);
@@ -116,10 +106,10 @@ module front_panel() {
     //remove window in front panel
     color(panel_color_holes())
       translate ([front_window_offset().x, front_window_offset().y, panel_thickness() / 2])
-      rounded_rectangle([front_window_size().x, front_window_size().y, panel_thickness() + 2 * epsilon], front_window_radius());
+        rounded_rectangle([front_window_size().x, front_window_size().y, panel_thickness() + 2 * epsilon], front_window_radius());
   }
-// DEBUG cube
-*translate([-frame_size().x / 2 , -frame_size().z / 2 , panel_thickness()])  cube ([10,frame_size().z,10]);
+  // DEBUG cube
+  *translate([-frame_size().x / 2 , -frame_size().z / 2 , panel_thickness()])  cube ([10,frame_size().z,10]);
 }
 
 module hinges() {
@@ -191,7 +181,7 @@ module right_panel() {
   difference() {
    side_panel();
     color(panel_color_holes()) {
-    translate(cable_bundle_hole_placement()) singlescrewhole(26,0); // cable bundle - correct for ZL
+    translate(cable_bundle_hole_placement()) mirror([0,0,1]) hole(d=26, h=panel_thickness() + epsilon); // cable bundle - correct for ZL
     translate(DuetE_placement())  pcb_holes(DuetE);  // correct for ZL
     translate(Duex5_placement())  pcb_holes(Duex5);  //correct for ZL
     translate(psu_placement()+[0,0,20]) rotate([0,0,90]) psu_screw_positions(S_250_48) cylinder(40,3,3);  // FIXME: Use polyhole, check mounting fits Meanwell too

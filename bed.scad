@@ -1,16 +1,16 @@
 include <config.scad>
-use <lib/mirror.scad>
+use <lib/layout.scad>
+use <lib/holes.scad>
 use <screwholes.scad>
 use <demo.scad>
-
 
 bed_ear_x = 12.5;
 bed_ear_y = 23.4;
 bed_radius = 7.5;
 
+// The origin of the bed is on the back of the bed (the surface that touches the yokes) at the centroid between the mounting ears
 module bed(bed_frame_offset)
 {
-  // FIXME: we should probably define this directly in terms of bed x and y dimensions and not in terms of printable area.
   // Printable area will vary with the printhead setup and isn't an exact dimension at design time.
 translate (bed_frame_offset)
   color(alum_part_color()) {
@@ -18,21 +18,23 @@ translate (bed_frame_offset)
       union() {
 
         // Main body of bed
-        translate([0, 0, bed_thickness()/2 ]) ;
+        translate([0, 0, bed_thickness()/2 ])
           rounded_rectangle([bed_plate_size().x, bed_plate_size().y, bed_thickness()], bed_radius);
         // Ears
-        translate([bed_plate_size().x / 2, 0, -bed_thickness()/2]) bed_ear();
+        translate([bed_plate_size().x / 2, 0, 0]) bed_ear();
         mirror_y()
-          translate([-bed_plate_size().x / 2, bed_ear_spacing() / 2, -bed_thickness()/2]) rotate([0,0,180]) bed_ear();
+          translate([-bed_plate_size().x / 2, bed_ear_spacing() / 2, 0])
+            rotate([0,0,180])
+              bed_ear();
       }
       thermistor_channel();
 
       // Grounding connection hole
       //  a proper grounding connection is consists of a toothed washer, washer, ring terminal, washer, a "schnorr disk" (?) and the bolt going through all of it
-      translate ([190,-35,bed_thickness()/2]) rotate ([0,90,0]) singlescrewhole(2,0);
+      translate ([bed_plate_size().x / 2, -35, bed_thickness()/2]) rotate ([0,90,0]) hole(d=2, h=5);
 
       // Mounting hole for wire restraint on the side where cables go.
-      translate ([190,-50,bed_thickness()/2]) rotate ([0,90,0]) singlescrewhole(2,0);
+      translate ([bed_plate_size().x / 2, -50, bed_thickness()/2]) rotate ([0,90,0]) hole(d=2, h=5);
     }
   }
 }

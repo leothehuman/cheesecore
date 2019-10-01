@@ -1,5 +1,6 @@
 include <constants.scad>
-use <lib/mirror.scad>
+use <lib/layout.scad>
+use <lib/holes.scad>
 use <demo.scad>
 
 module anti_backlash_nut(screw_size) {
@@ -12,11 +13,10 @@ module anti_backlash_nut(screw_size) {
       }
 
       // mount bolt pattern
-      // FIXME: use a proper hole rather than cylinder
       mirror_xy() {
         rotate([0,0, 45])
-          translate([0, 11, -1])
-            cylinder(d=3.4, h=10);
+          translate([0, 11, 4])
+            clearance_hole(nominal_d=3, h=10);
       }
 
       translate([0,0,-epsilon]) cylinder(d=8+5*epsilon, h=36+2*epsilon);

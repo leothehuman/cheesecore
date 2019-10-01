@@ -3,7 +3,7 @@ include <config.scad>
 include <nopscadlib/core.scad>
 include <nopscadlib/utils/round.scad>
 use <lib/holes.scad>
-use <lib/mirror.scad>
+use <lib/layout.scad>
 use <screwholes.scad>
 use <demo.scad>
 

@@ -4,6 +4,8 @@
 // vim: set nospell:
 include <config.scad>
 include <nopscadlib/core.scad>
+use <lib/holes.scad>
+use <lib/layout.scad>
 use <screwholes.scad>
 use <demo.scad>
 
@@ -25,16 +27,21 @@ color(alum_part_color()) {
   addony = 12 ;
 
   union() {
-  translate ([mainx/2,-mainy/2,0])
-    rounded_rectangle([mainx,mainy,part_thickness ], part_corner_rounding);
-  translate ([mainx,-mainy+addony/2+screwsize,0])
-    rounded_rectangle([addonx,addony+screwsize*2,part_thickness ], part_corner_rounding);
+    translate ([mainx/2,-mainy/2,0])
+      rounded_rectangle([mainx,mainy,part_thickness ], part_corner_rounding);
+    translate ([mainx,-mainy+addony/2+screwsize,0])
+      rounded_rectangle([addonx,addony+screwsize*2,part_thickness ], part_corner_rounding);
   }
 
-  translate ([mainx-(extrusion/2),-41.8,0])
-    screwholes(row_distance=37,numberofscrewholes=5,Mscrew=screwsize,screwhole_increase=0.1) ; //line of screwholes
-  translate ([23,-24,0])
+  // FIXME: we shouldn't have mounting holes over the corner cube
+  translate ([mainx-(extrusion/2),-41.8, part_thickness])
+    linear_repeat(extent=[0, 37, 0], count=5 ) {
+      clearance_hole(nominal_d=screwsize, h=50);
+    }
+
+  translate ([33,-24.5,0])
     motorhole(0,0,0);  //motor holes
+
   translate ([mainx+(extrusion/2),-43.3+(screwsize/2),2])
     rotate ([0,0,90])
       longscrewhole(screwhole_length=8,Mscrew=screwsize,screwhole_increase=0.15); //extrusion adjust
@@ -65,6 +72,13 @@ module aluminium_motor_mount(screwsize=3, motoradjustspacing=6) {
   translate([48+30, -47+extrusion, 6/2])
     rotate([0,0,180])
       raw_aluminium_motor_mount(screwsize=screwsize, motoradjustspacing=motoradjustspacing);
+}
+
+module steel_2020_motor_mount() {
+// https://ooznest.co.uk/product/nema17-motor-mounting-plate/
+color(alum_part_color())
+    translate([40, -2.5, 0]) rotate([90, 0, 270])
+      import("purchased_parts/NEMA17mountingplate.stl", convexity=3);
 }
 
 demo() {

@@ -9,14 +9,19 @@ module hole_with_counterbore(d, h, counterbore_d) {
   cylinder(d=cbore_d, h=100);
 }
 
-module clearance_hole_with_counterbore(nominal_d, h, d) {
-  assert(!(nominal_d == undef && d == undef), "Must pass d or nominal_d");
-  assert(!(nominal_d != undef && d !=undef), "Can only pass d or nominal_d");
+module hole(d, h) {
+  translate([0,0, -h]) cylinder(d=d, h=h+epsilon);
+}
 
-  if(nominal_d != undef)
-    hole_with_counterbore(d=clearance_hole_size(nominal_d), h = h, counterbore_d = button_counterbore_hole_size(nominal_d));
-   else
-     hole_with_counterbore(d=d, h = h, counterbore_d = button_counterbore_hole_size(d));
+module clearance_hole(nominal_d, h) {
+  hole(d=clearance_hole_size(nominal_d), h=h);
+}
+
+module clearance_hole_with_counterbore(nominal_d, h, counterbore_d) {
+  true_hole_size = clearance_hole_size(nominal_d);
+  true_counterbore_d = is_undef(counterbore_d) ? button_counterbore_hole_size(true_hole_size) : counterbore_d;
+
+  hole_with_counterbore(d=true_hole_size, h = h, counterbore_d = true_counterbore_d);
 }
 
 function clearance_hole_size(nominal_d) = lookup(nominal_d, [
