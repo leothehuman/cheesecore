@@ -19,6 +19,13 @@ use <top_enclosure_frame.scad>
 use <xy_motion.scad>
 use <y_carriage.scad>
 
+
+ver = version();
+if(ver[0]<2019||(ver[0]==2019&&ver[1]<5)) {
+    echo("<font color='red'>You need to update OpenSCAD.</font>");
+    echo(str("<font color='red'>This OpenSCAD model was made with version 2019.5.0, you are using version ", str(version()[0]), ".",str(version()[1]), ".",str(version()[2]), "</font>"));
+}
+
 $fullrender=false;
 
 //CORE MODULES
