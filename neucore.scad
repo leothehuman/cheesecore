@@ -52,15 +52,16 @@ module top_enclosure() {
     enclosure_frame();
      %enclosure_side_panels();
     enclosure_hinges();
-    handle();
+    enclosure_handle();
   }
   printed_interface_arrangement();
 }
 
+*tinycore(position = [40, 110, 130]);
 zlplus(position = [40, 110, 130]);
 *customcore(position = [40, 110, 130]);
-translate([0, 800, 0]) rc300zl(position = [80, 90, 30]);
-translate([800, 0, 0]) rc300zlt(position = [150, 150, 130]);
+*translate([0, 800, 0]) rc300zl(position = [80, 90, 30]);
+*translate([800, 0, 0]) rc300zlt(position = [150, 150, 130]);
 *translate([0, 800, 0]) dancore(position = [150, 150, 130]);
 *translate([800, 800, 0]) rc300zlv2(position = [80, 90, 30]);
-translate([800, 800, 0]) rc300zl40();
+*translate([800, 800, 0]) rc300zl40();

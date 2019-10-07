@@ -47,7 +47,7 @@ elec_custom  = ["ELEC.BOX", 410,   310,   59 ,   6,     false,  [-84,146.5,0], [
 //                        X    Y    Z
 enclosure_rc300zl     = [490, 455, 245];
 enclosure_rc300zlt    = [490, 455, 245];
-enclosure_rc300zl4040 = [590, 555, 545];
+enclosure_rc300zl4040 = [590, 555, 245];
 enclosure_zlplus      = [490, 500, 245];
 enclosure_custom      = [490, 455, 245];
 
@@ -60,8 +60,9 @@ leadscrew_zl4040    = ["LEADSCREW_SPECS", 500, 8];
 leadscrew_rc_custom = ["LEADSCREW_SPECS", 420, 8];
 // BED
 //             name  bed_plate_size   motor space  bed_overall_size  bed thickness
-bed_rc300  = ["BED", [325, 342],      255,        [335, 342],        0.25 * inch];
-bed_custom = ["BED", [425, 442],      295,        [435, 442],        8];
+bed_rc300   = ["BED", [325, 342],      255,        [335, 342],        0.25 * inch];
+bed_tinycore= ["BED", [150, 167],      100,        [160, 342],        0.25 * inch];
+bed_custom  = ["BED", [425, 442],      295,        [435, 442],        8];
 // NOTE: CAN X SIZE CONSTRAIN TO EXTRUSION & RAIL SIZE?
 
 // MANUFACTURER DEFINED
@@ -87,47 +88,47 @@ leadscrew_y_offset = 30 ; // taken off z yoke in fusion
 // Note that we don't specify the finer points of the bed ears here, because it doesn't affect how the printer lays out, that's an impelementation detail fo ths bed model
 
 function NEMAtypeXY() = $NEMA_XY ;
-function NEMAtypeZ() = $NEMA_Z ;
+function NEMAtypeZ()  = $NEMA_Z ;
 
-function bed_plate_size() = $bed[1];
-function bed_ear_spacing() = $bed[2];
+function bed_plate_size()   = $bed[1];
+function bed_ear_spacing()  = $bed[2];
 function bed_overall_size() = $bed[3];
-function bed_thickness() = $bed[4];
+function bed_thickness()    = $bed[4];
 
-function leadscrew_length() = $leadscrew_specs[1];
+function leadscrew_length()   = $leadscrew_specs[1];
 function leadscrew_diameter() = $leadscrew_specs[2];
 
 function frame_size() = $frame_size;
 
-function rail_lengths() = [$rail_specs.x[0], $rail_specs.y[0], $rail_specs.z[0]];
+function rail_lengths()  = [$rail_specs.x[0], $rail_specs.y[0], $rail_specs.z[0]];
 function rail_profiles() = [$rail_specs.x[1], $rail_specs.y[1], $rail_specs.z[1]];
 
-function front_window_size() = $front_window_size[1];
+function front_window_size()   = $front_window_size[1];
 function front_window_radius() = $front_window_size[2];
 function front_window_offset() = $front_window_size[3];
 
 // How far in from edge to start panel screws
-function panel_screw_offset() = extrusion_width($extrusion_type) + 35; // 50 in original 1515 machine
+function panel_screw_offset()  = extrusion_width($extrusion_type) + 35; // 50 in original 1515 machine
 // Max allowable distance between screws on front panels
 function max_panel_screw_spacing() = 100;
 
 function box_size_y() = $elecbox[1] ;
 function box_size_z() = $elecbox[2] ;
-function box_depth() = $elecbox[3] ;
-function acrylic_thickness() = $elecbox[4] ;
-function laser_cut_vents() = $elecbox[5] ;
+function box_depth()  = $elecbox[3] ;
+function acrylic_thickness()  = $elecbox[4] ;
+function laser_cut_vents()    = $elecbox[5] ;
 
 function cable_bundle_hole_placement() = $elecbox[6] ;
 function DuetE_placement()  = $elecbox[7] ;
-function Duex5_placement() = $elecbox[8] ;
-function psu_placement() = $elecbox[9] ;
-function ssr_placement() = $elecbox[10] ;
-function rpi_placement() = $elecbox[11] ;
-function enclosure_size() = $enclosure_size ;
+function Duex5_placement()  = $elecbox[8] ;
+function psu_placement()    = $elecbox[9] ;
+function ssr_placement()    = $elecbox[10] ;
+function rpi_placement()    = $elecbox[11] ;
+function enclosure_size()   = $enclosure_size ;
 
 
-function extrusion_width(extrusion_type = $extrusion_type) = extrusion_type[1];
-function extrusion_screw_size(extrusion_type = $extrusion_type) = extrusion_type[2];
+function extrusion_width      (extrusion_type = $extrusion_type) = extrusion_type[1];
+function extrusion_screw_size (extrusion_type = $extrusion_type) = extrusion_type[2];
 
 // CONSTRAINTS
 function motor_pulley_link() = frame_size().y / 2 - rail_height(rail_profiles().x) - carriage_height(rail_profiles().x) - extrusion_width() ;
@@ -135,17 +136,17 @@ function motor_pulley_link() = frame_size().y / 2 - rail_height(rail_profiles().
 
 // ORIGINAL RAILCORE II ZL
 module rc300zl(position = [0, 0, 0]) {
-  $front_window_size = front_window_zl;
-  $extrusion_type = extrusion15;
-  $NEMA_XY = NEMA17;
-  $NEMA_Z = NEMA17;
-  $frame_size = frame_rc300zl;
-  $rail_specs = rails_rc300zl;
-  $leadscrew_specs = leadscrew_rc300zl ;
-  $bed = bed_rc300;
-  $elecbox = elec_ZL ; //electronics box size and placements
-  $branding_name = "Original ZL";
-  $enclosure_size = enclosure_rc300zl;
+  $front_window_size  = front_window_zl;
+  $extrusion_type     = extrusion15;
+  $NEMA_XY            = NEMA17;
+  $NEMA_Z             = NEMA17;
+  $frame_size         = frame_rc300zl;
+  $rail_specs         = rails_rc300zl;
+  $leadscrew_specs    = leadscrew_rc300zl ;
+  $bed                = bed_rc300;
+  $elecbox            = elec_ZL ; //electronics box size and placements
+  $branding_name      = "Original ZL";
+  $enclosure_size     = enclosure_rc300zl;
   validate();
   enclosure();
   kinematics(position);
@@ -233,7 +234,7 @@ module rc300zl40(position = [0, 0, 0]) {
   $bed = bed_custom;
   $elecbox = elec_custom ; //electronics box size and placements
   $branding_name = "4040 ZL";
-  $enclosure_size = enclosure_rc300zl;
+  $enclosure_size = enclosure_rc300zl4040;
   validate();
   enclosure();
   kinematics(position);
@@ -242,6 +243,34 @@ module rc300zl40(position = [0, 0, 0]) {
   top_enclosure();
 }
 
+
+// TINYCORE - based on a bit of info about the bed :)
+module tinycore(position = [0, 0, 0]) {
+  //                            name       sizeXY   depth thick
+  $front_window_size =   ["WINDOW_TYPE", [245, 210], 10, [0, 5]];
+  $extrusion_type = extrusion15;
+  $NEMA_XY = NEMA23;
+  $NEMA_Z = NEMA17;
+  //             sizeX sizeY sizeZ
+  $frame_size = [315, 280, 325];
+  //            sizeX  Xtype  sizeY  Ytype    sizeZ Ztype
+  $rail_specs = [[225, MGN12], [225, MGN12], [280, MGN12]];
+  //                     Name           height diameter
+  $leadscrew_specs = ["LEADSCREW_SPECS", 280,  8];
+  //       name  bed_plate_size   motor space  bed_overall_size  bed thickness
+  $bed  = ["BED", [150, 167],      100,        [160, 342],        0.25 * inch];
+  // ELECTRONICS BOX ALONG WITH  & ELECTRONICS & CABLE PLACEMENT -  placement of parts on right panel with X/Y as centre
+  //                name       sizeX  sizeY  depth thick, lasercut cable_bundle    DuetE            Duex              PSU        SSR              RPi
+  $elecbox      = ["ELEC.BOX", 118.9, 58.9, 59 ,   6,     true,   [-84,126.5,0], [-84.82,50.5,0], [-84.82,-59.5,0], [60,00,0],  [145,50,0] , [-90,-140,0]] ;
+  $branding_name = "TinyCore";
+  $enclosure_size = [315, 280, 225];
+  validate();
+  enclosure();
+  kinematics(position);
+  *electronics_box_contents();
+  *electronics_box ();
+  top_enclosure();
+}
 
 
 // CUSTOMCORE FOR DEBUGGING/QUICK RENDERING
