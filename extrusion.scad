@@ -1,3 +1,4 @@
+// vim: set nospell:
 include <constants.scad>
 include <nopscadlib/core.scad>
 use <lib/holes.scad>

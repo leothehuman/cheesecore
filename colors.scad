@@ -1,3 +1,4 @@
+// vim: set nospell:
 WOODY=0;
 MURDERED=1;
 

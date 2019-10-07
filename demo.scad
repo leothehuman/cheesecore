@@ -1,3 +1,4 @@
+// vim: set nospell:
 include <config.scad>
 
 // This sets all the required config variables to demo a part without needing to specify them in every file.

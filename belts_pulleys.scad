@@ -11,7 +11,8 @@ module corexy_belts(position = [0, 0]) {
   vertical_offset = 9; // an 8.6mm heigh GT2 pulley, with a 0.4mm shim on top
 
   // This sets how far from centerline of the machine the idler stack on the x-carriages is.
-  x_carriage_pulley_offset = motor_pulley_link() + 0; //FIXME parametric but not in the right place
+  x_carriage_pulley_offset = motor_pulley_link(); //FIXME parametric but not sure how!
+  //((extrusion_width()-15)/2)
 
   // x/y coordinate of the x-carriage stack;
   // FIXME: the +62 here is an approximation to make things look decent
@@ -19,12 +20,12 @@ module corexy_belts(position = [0, 0]) {
 
   // Location of steppers in x
   // FIXME: the stepper offset and idler offset is made up
-  stepper_offset = NEMA_width(NEMAtype())/2 + panel_thickness() ;
+  stepper_offset = NEMA_width(NEMAtypeXY())/2 + panel_thickness() ;
   // 34 for stepperoffset extrusion15
 
   // *** THESE ARE DEPENDENT ON THE IDLER POSITION
-  idler_offset_inner =  40;  //tie this to the pulley location - these are relative to the centre of the extrusion on the left side
-  idler_offset_outer =  40;  //tie this to the pulley location - these are relative to the centre of the extrusion on the left side
+  idler_offset_inner =  45;  //tie this to the pulley location - these are relative to the centre of the extrusion on the left side
+  idler_offset_outer =  45;  //tie this to the pulley location - these are relative to the centre of the extrusion on the left side
 /*
   idler_offset_inner =  0;  //tie this to the pulley location - these are relative to the centre of the extrusion on the left side
   idler_offset_outer =  0;  //tie this to the pulley location - these are relative to the centre of the extrusion on the left side
@@ -84,6 +85,11 @@ module corexy_belts(position = [0, 0]) {
   }
   function aluminium_idler_mount_test() = [idler_offset_inner + extrusion_width()/2 - frame_size().x / 2 - stepper_offset, -x_carriage_pulley_offset - pulley_pr(GT2x20_plain_idler) - pulley_pr(GT2x16_pulley)];
   echo (aluminium_idler_mount_test());
+}
+
+module pulley_marker()
+{
+cylinder(d=3,h=40);
 }
 
 demo() {

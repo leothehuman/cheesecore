@@ -1,3 +1,4 @@
+// vim: set nospell:
 include <config.scad>
 include <nopscadlib/core.scad>
 include <nopscadlib/lib.scad>
@@ -38,7 +39,7 @@ module z_tower(z_position=0) {
 
   // NEMA 17 Z motors
   translate ([-leadscrew_x_offset, 0, -panel_thickness()])
-    NEMA(NEMAtype());
+    NEMA(NEMAtypeZ());
 
   //Coupler is connected to the NEMA17 motor
   translate ([-leadscrew_x_offset, 0, 0])
@@ -82,7 +83,7 @@ module z_tower(z_position=0) {
         z_bracket(extrusion_width());
 
   //Debug - set to true for debug info
-  if (true) {
+  if (false) {
     //echo ("rail_length.z",rail_length.z);
     echo ("z_position",z_position);
     //echo("Passing rail position of: ", position);

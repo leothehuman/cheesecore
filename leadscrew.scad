@@ -1,3 +1,4 @@
+// vim: set nospell:
 include <config.scad>
 include <demo.scad>
 

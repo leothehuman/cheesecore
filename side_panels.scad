@@ -112,15 +112,15 @@ module front_panel() {
   *translate([-frame_size().x / 2 , -frame_size().z / 2 , panel_thickness()])  cube ([10,frame_size().z,10]);
 }
 
-module hinges() {
+module hinges(hinge_extension = 0) {
   translate([0, -frame_size().y/2, 0])
     rotate([90, 0, 0]) {
       mirror_xy() {
         translate([-frame_size().x / 2 + extrusion_width() /2, frame_size().z / 2 - panel_screw_spacing(frame_size().z)/2 - panel_screw_offset() , panel_thickness()])
-          panelside_hinge(screw_distance = panel_screw_spacing(frame_size().z), acrylic_door_thickness=acrylic_door_thickness(), extension = 0 , screw_type=3,$draft=false);
+          panelside_hinge(screw_distance = panel_screw_spacing(frame_size().z), acrylic_door_thickness=acrylic_door_thickness(), extension = hinge_extension , screw_type=3,$draft=false);
       }
       mirror_xy() {
-        translate([-frame_size().x / 2 , frame_size().z / 2 - panel_screw_spacing(frame_size().z)/2 - panel_screw_offset(), panel_thickness() + acrylic_door_thickness()])
+        translate([hinge_extension-frame_size().x / 2 , frame_size().z / 2 - panel_screw_spacing(frame_size().z)/2 - panel_screw_offset(), panel_thickness() + acrylic_door_thickness()])
           doorside_hinge() ;
         }
     }

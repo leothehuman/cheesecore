@@ -1,3 +1,4 @@
+// vim: set nospell:
 include <config.scad>
 
 module validate() {

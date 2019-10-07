@@ -1,3 +1,4 @@
+// vim: set nospell:
 // Initially based onSimple-idler-FRONT-R1.DXF
 
 // vim: set nospell:

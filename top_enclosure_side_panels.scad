@@ -102,7 +102,7 @@ module enclosure_hinges() {
 
 
 module side_panel() {
-  panel(frame_size(). y, enclosure_size().z-extrusion_width($extrusion_type)/2);
+  panel(enclosure_size(). y, enclosure_size().z-extrusion_width($extrusion_type)/2);
 }
 
 module back_panel() {

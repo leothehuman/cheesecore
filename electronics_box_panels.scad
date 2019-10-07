@@ -24,7 +24,7 @@ module electronics_box() {
   translate([frame_size().x / 2 + panel_thickness(), 0, 0]  )
     rotate ([0,0,90])
 {
-  // 4 electronics box corners
+  // Place 4 electronics box corners
   mirror_xz() {
     translate ([-box_size_y()/2+move_corners,-box_depth(),box_size_z()/2+-move_corners])
       electronics_box_corner(cornersize = 15, acrylicdepth = acrylic_thickness() ,height = box_depth(), ledgewidth = 10 , ledgethickness = 4, , holesize = 3.5); ;  //electronics box corners

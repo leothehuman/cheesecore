@@ -1,78 +1,102 @@
-// Initially based on Motor-mount-V2-rear-V1-SW-SIMPLE.DXF
-//changed number of screwholes from 6 to 5 and made extrusion adjust a big bigger
-
 // vim: set nospell:
+
 include <config.scad>
 include <nopscadlib/core.scad>
 use <lib/holes.scad>
 use <lib/layout.scad>
 use <screwholes.scad>
+include <nopscadlib/vitamins/stepper_motor.scad>
+include <nopscadlib/vitamins/stepper_motors.scad>
 use <demo.scad>
 
 // FIXME: rather than parameterize on screwsize, we could parameterize on NEMA size of motor - that would set all of
 // a screw size, main motor hole size, and screw pattern from one variable
+
+  function NEMAadjust() = 0 ;
+  function part_thickness() = 1/4 * inch;  // part_thickness  of aluminium part in mm
 module raw_aluminium_motor_mount(screwsize,motoradjustspacing) {
   extrusion = extrusion_width($extrusion_type);
-  part_thickness = 1/4 * inch;  // part_thickness  of aluminium part in mm
+
   part_corner_rounding = 3;
-  NEMAhole=24; // size of hole required for NEMA17 motor
+  type = NEMAtypeXY();
+
+  extra = NEMAadjust()+4;
+  mount_length = NEMA_width(type) + extrusion + panel_thickness();
+  //NEMA_body_radius(NEMAtypeXY()) * 2 + panel_thickness() + extrusion_width()/2 + extra  ;
+  mount_width  = NEMA_width(type) ;
+  adjust_screw_addon_length = extrusion * 2;
+  adjust_screw_addon_width  = extrusion_width() + panel_thickness()/2 ;
 
 color(alum_part_color()) {
   difference () {
   //main block
   //FIXME: add rounded corner to the join
-  mainx = 78 ;
-  mainy = 47 ;
-  addonx = extrusion+15 ;
-  addony = 12 ;
 
+
+//translate ([extrusion,-mount_width/2,0])
   union() {
-    translate ([mainx/2,-mainy/2,0])
-      rounded_rectangle([mainx,mainy,part_thickness ], part_corner_rounding);
-    translate ([mainx,-mainy+addony/2+screwsize,0])
-      rounded_rectangle([addonx,addony+screwsize*2,part_thickness ], part_corner_rounding);
+    // Main rectangle
+    translate ([(extrusion + panel_thickness())/2,0,0])
+      rounded_rectangle([mount_length,mount_width,part_thickness()], part_corner_rounding);
+    // screw adjustment rectangle
+    translate ([extrusion_width()+adjust_screw_addon_length/2,-mount_width/2+adjust_screw_addon_width/2,0])
+      rounded_rectangle([adjust_screw_addon_length,adjust_screw_addon_width,part_thickness() ], part_corner_rounding);
   }
 
   // FIXME: we shouldn't have mounting holes over the corner cube
-  translate ([mainx-(extrusion/2),-41.8, part_thickness])
-    linear_repeat(extent=[0, 37, 0], count=5 ) {
+  translate ([-extrusion*0.5,-mount_width+extrusion*1.5, part_thickness()])
+    linear_repeat(extent=[0, mount_width-extrusion*2, 0], count=3 ) {
       clearance_hole(nominal_d=screwsize, h=50);
     }
 
-  translate ([33,-24.5,0])
-    motorhole(0,0,0);  //motor holes
 
-  translate ([mainx+(extrusion/2),-43.3+(screwsize/2),2])
+//  translate ([-NEMA_length(NEMAtypeXY())-NEMAadjust()/2,-24.5,0])
+    //motorhole(0,0,0);  //motor holes
+      long_motor_holes(NEMAtypeXY());
+
+
+translate ([+(extrusion/2),-43.3+(screwsize/2),2])
     rotate ([0,0,90])
       longscrewhole(screwhole_length=8,Mscrew=screwsize,screwhole_increase=0.15); //extrusion adjust
   }
 }
+//-NEMAadjust()/2
+//NEMA_body_radius(NEMAtypeXY())
+//-mount_length/2
+module long_motor_holes(type) {
 
-module motorhole(x,y,z) {
- union() {
-  posx= 13 ;
-  posy= 15.39 ;
-  NEMAadjust = 10 ;
-  NEMAscrew = 3 ;
-  longscrewhole(screwhole_length=NEMAadjust,Mscrew=NEMAhole,screwhole_increase=0.6);
-  translate ([-posx,-posy,-2])
-    longscrewhole(screwhole_length=motoradjustspacing, Mscrew=NEMAscrew,screwhole_increase=0.1);
-  translate ([-posx,+posy,-2])
-    longscrewhole(screwhole_length=motoradjustspacing, Mscrew=NEMAscrew,screwhole_increase=0.1);
-  translate ([posx+(NEMAadjust/2),-posy,-2])
-    longscrewhole(screwhole_length=motoradjustspacing, Mscrew=NEMAscrew,screwhole_increase=0.1);
-  translate ([posx+(NEMAadjust/2),+posy,-2])
-    longscrewhole(screwhole_length=motoradjustspacing, Mscrew=NEMAscrew,screwhole_increase=0.1);
-    }
+
+//translate ([-extrusion_width() - panel_thickness() - NEMA_width(type)/2, 0, 0])
+  hull() {
+    translate([NEMAadjust()/2, 0,-epsilon])
+    cylinder(h=part_thickness() + 2 * epsilon, d=NEMA_boss_radius(type) * 2 + 3);
+translate([-NEMAadjust()/2, 0, -epsilon])
+    cylinder(h=part_thickness() + 2 * epsilon, d=NEMA_boss_radius(type) * 2 + 3);
   }
+translate([(-mount_length/2-NEMAadjust())/2, 0, 0])
+  mirror_xy() {
+    hull() {
+      translate([NEMA_hole_pitch(type)/2+NEMAadjust()/2, NEMA_hole_pitch(type)/2, -epsilon-30 ])
+      // FIXME this needs to be a hole() not a cylinder
+      //cylinder(d=3.3, h=panel_thickness() + 2 * epsilon);
+      cylinder(d=3.3, h=60);
+      translate([NEMA_hole_pitch(type)/2-NEMAadjust()/2, NEMA_hole_pitch(type)/2, -epsilon-30 ])
+      cylinder(d=3.3, h=60);
+    }
+
+  }
+}
+
+
 }
 // wraps raw_aluminium_motor_mount() and rotates part to convenient orientation and placement for placing on model
 module aluminium_motor_mount(screwsize=3, motoradjustspacing=6) {
   extrusion = extrusion_width($extrusion_type);
-  translate([48+30, -47+extrusion, 6/2])
+  //translate([mount_length/2-extra, -47+extrusion, 6/2])
     rotate([0,0,180])
       raw_aluminium_motor_mount(screwsize=screwsize, motoradjustspacing=motoradjustspacing);
 }
+
 
 module steel_2020_motor_mount() {
 // https://ooznest.co.uk/product/nema17-motor-mounting-plate/
@@ -80,6 +104,7 @@ color(alum_part_color())
     translate([40, -2.5, 0]) rotate([90, 0, 270])
       import("purchased_parts/NEMA17mountingplate.stl", convexity=3);
 }
+
 
 demo() {
   mirror([0,1,0])

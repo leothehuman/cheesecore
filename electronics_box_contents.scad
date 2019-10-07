@@ -17,8 +17,11 @@ module electronics_box_contents() {
       translate(psu_placement()) rotate([0,0,90])   psu_screw_positions(S_250_48)
         translate_z(5)
                 screw_and_washer(psu_screw(S_250_48), 8);
-      translate(ssr_placement()) rotate([0,0,90]) ssr_assembly(ssrs[0], M3_cap_screw, 3);
-      translate(ssr_placement()) rotate([0,0,90]) ssr_shroud_fastened_assembly(SSR25DA, 12,6,SSR25DA);
+      translate(ssr_placement()) rotate([0,0,180]) ssr_assembly(ssrs[0], M3_cap_screw, 3);
+      translate(ssr_placement()) rotate([0,0,180]) ssr_shroud_fastened_assembly(SSR25DA, 12,6,SSR25DA);
+      translate(rpi_placement()) rotate([0,0,180]) pcb(RPI3);
+
+
 /*
 //below is development crap to be removed later.
 

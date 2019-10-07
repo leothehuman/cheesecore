@@ -1,3 +1,4 @@
+// vim: set nospell:
 include <config.scad>
 include <nopscadlib/core.scad>
 include <nopscadlib/lib.scad>
