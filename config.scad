@@ -48,7 +48,7 @@ elec_custom  = ["ELEC.BOX", 410,   310,   59 ,   6,     false,  [-84,146.5,0], [
 enclosure_rc300zl     = [490, 455, 245];
 enclosure_rc300zlt    = [490, 455, 245];
 enclosure_rc300zl4040 = [590, 555, 545];
-enclosure_zlplus      = [490, 455, 245];
+enclosure_zlplus      = [490, 500, 245];
 enclosure_custom      = [490, 455, 245];
 
 // LEADSCREW_SPECS
