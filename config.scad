@@ -86,9 +86,8 @@ leadscrew_y_offset = 30 ; // taken off z yoke in fusion
 //           type,  dimensions, ear spacing, nominal mount distance in x
 // Note that we don't specify the finer points of the bed ears here, because it doesn't affect how the printer lays out, that's an impelementation detail fo ths bed model
 
-function NEMAtypeXY() = NEMA23 ;
-function NEMAtypeZ() = NEMA17 ;
-
+function NEMAtypeXY() = $NEMA_XY ;
+function NEMAtypeZ() = $NEMA_Z ;
 
 function bed_plate_size() = $bed[1];
 function bed_ear_spacing() = $bed[2];
@@ -133,10 +132,13 @@ function extrusion_screw_size(extrusion_type = $extrusion_type) = extrusion_type
 // CONSTRAINTS
 function motor_pulley_link() = frame_size().y / 2 - rail_height(rail_profiles().x) - carriage_height(rail_profiles().x) - extrusion_width() ;
 
+
 // ORIGINAL RAILCORE II ZL
 module rc300zl(position = [0, 0, 0]) {
   $front_window_size = front_window_zl;
   $extrusion_type = extrusion15;
+  $NEMA_XY = NEMA17;
+  $NEMA_Z = NEMA17;
   $frame_size = frame_rc300zl;
   $rail_specs = rails_rc300zl;
   $leadscrew_specs = leadscrew_rc300zl ;
@@ -156,6 +158,8 @@ module rc300zl(position = [0, 0, 0]) {
 module rc300zlt(position = [0, 0, 0]) {
   $front_window_size = front_window_zlt;
   $extrusion_type = extrusion15;
+  $NEMA_XY = NEMA17;
+  $NEMA_Z = NEMA17;
   $frame_size = frame_rc300zlt;
   $rail_specs = rails_rc300zlt;
   $leadscrew_specs = leadscrew_rc300zlt ;
@@ -198,6 +202,8 @@ module zlplus(position = [0, 0, 0]) {
 module rc300zlv2(position = [0, 0, 0]) {
   $front_window_size = front_window_zl;
   $extrusion_type = extrusion15;
+  $NEMA_XY = NEMA17;
+  $NEMA_Z = NEMA17;
   $frame_size = frame_rc300zl;
   $rail_specs = rails_rc300zl;
   $leadscrew_specs = leadscrew_rc300zl ;
@@ -219,6 +225,8 @@ module rc300zlv2(position = [0, 0, 0]) {
 module rc300zl40(position = [0, 0, 0]) {
   $front_window_size = front_window_zl;
   $extrusion_type = extrusion40;
+  $NEMA_XY = NEMA23;
+  $NEMA_Z = NEMA17;
   $frame_size = frame_rc300zl4040;
   $rail_specs = rails_rc300zl4040;
   $leadscrew_specs = leadscrew_zl4040 ;
@@ -240,6 +248,8 @@ module rc300zl40(position = [0, 0, 0]) {
 module customcore(position = [0, 0, 0]) {
   $front_window_size = front_window_zl;
   $extrusion_type = extrusion15;
+  $NEMA_XY = NEMA17;
+  $NEMA_Z = NEMA17;
   $frame_size = frame_rc300_custom;
   $rail_specs = rails_custom;
   $leadscrew_specs = leadscrew_rc_custom;

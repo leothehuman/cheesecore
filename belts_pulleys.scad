@@ -19,9 +19,8 @@ module corexy_belts(position = [0, 0]) {
   carriage_stack = [position.x + 62, x_carriage_pulley_offset];
 
   // Location of steppers in x
-  // FIXME: the stepper offset and idler offset is made up
+  // FIXME: the stepper offset works for the stepper, but the idler moves also.
   stepper_offset = NEMA_width(NEMAtypeXY())/2 + panel_thickness() ;
-  // 34 for stepperoffset extrusion15
 
   // *** THESE ARE DEPENDENT ON THE IDLER POSITION
   idler_offset_inner =  45;  //tie this to the pulley location - these are relative to the centre of the extrusion on the left side
