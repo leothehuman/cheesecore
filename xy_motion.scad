@@ -26,7 +26,7 @@ translate([frame_size().x / 2 - extrusion_width(), 0, frame_size().z / 2]){
     translate([panel_thickness() + extrusion_width() + NEMA_width(NEMAtypeXY())/2,motor_pulley_link() + extrusion_width()/2 - 4  , 0])  // FIXME: what is the 4 for? Why does this work?
       #aluminium_motor_mount();
       //steel_2020_motor_mount();
-    translate([panel_thickness() + extrusion_width() + NEMA_width(NEMAtypeXY())/2, motor_pulley_link() , 0])
+    translate([panel_thickness() + extrusion_width() + NEMA_width(NEMAtypeXY())/2, motor_pulley_link() + 11 , 0])
       rotate([0, 0, 180]) NEMA(NEMAtypeXY());
     }
   }

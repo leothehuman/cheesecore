@@ -83,7 +83,7 @@ module corexy_belts(position = [0, 0]) {
 
   }
   function aluminium_idler_mount_test() = [idler_offset_inner + extrusion_width()/2 - frame_size().x / 2 - stepper_offset, -x_carriage_pulley_offset - pulley_pr(GT2x20_plain_idler) - pulley_pr(GT2x16_pulley)];
-  echo (aluminium_idler_mount_test());
+  //echo (aluminium_idler_mount_test());
 }
 
 module pulley_marker()

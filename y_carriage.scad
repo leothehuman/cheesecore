@@ -8,7 +8,7 @@ use <rail.scad>
 use <x-carriage.scad>
 
 module y_carriage(position) {
-  echo(rail_lengths().x);
+  //echo(rail_lengths().x);
   // messy bit!
   // FIXME: the +47 is a fudge to make things align
   Yrail_vector = [-rail_lengths().x/2 + position.x + 47, 0, frame_size().z / 2 - extrusion_width() / 2]; // Since a lot of things are tied to the Y-rail, I thought it might be worth investigating a base vector to simplify the code.

@@ -37,10 +37,10 @@ front_window_custom  = ["WINDOW_TYPE", [420, 385], 10, [0, 0]];
 // ELECTRONICS BOX ALONG WITH  & ELECTRONICS & CABLE PLACEMENT -  placement of parts on right panel with X/Y as centre
 //                name       sizeX  sizeY  depth thick, lasercut cable_bundle    DuetE            Duex              PSU        SSR              RPi
 elec_ZL      = ["ELEC.BOX", 298.9, 238.9, 59 ,   6,     true,   [-84,126.5,0], [-84.82,50.5,0], [-84.82,-59.5,0], [60,00,0],  [145,50,0] , [-90,-140,0]] ;
-elec_ZLT     = ["ELEC.BOX", 298.9, 438.9, 59 ,   6,     false,  [-84,226.5,0], [-84.82,150.5,0],[-84.82,40.5,0],  [80,80,0],  [0,-110,0] , [-90,-140,0]] ;
+elec_ZLT     = ["ELEC.BOX", 298.9, 438.9, 59 ,   6,     true,   [-84,226.5,0], [-84.82,150.5,0],[-84.82,40.5,0],  [80,80,0],  [0,-110,0] , [-90,-140,0]] ;
 elec_new_ZL  = ["ELEC.BOX", 320,   300,   59 ,   6,     false,  [-84,146.5,0], [-85,70,0],      [-85,-40,0],      [100,50,0], [30,-110,0] ,[-90,-140,0]] ;
 elec_new_ZLT = ["ELEC.BOX", 298.9, 438.9, 59 ,   6,     false,  [-84,166.5,0], [-84.82,50.5,0], [-84.82,-59.5,0], [80,30,0],  [30,-110,0] ,[-90,-140,0]] ;
-elec_zlplus  = ["ELEC.BOX", 410,   290,   59 ,   6,     false,  [-104,146.5,0],[-105,70,0],     [-105,-40,0],     [90,30,0], [70,-130,0] , [-60,-130,0]] ;
+elec_zlplus  = ["ELEC.BOX", 410,   290,   59 ,   6,     true,   [-104,146.5,0],[-105,70,0],     [-105,-40,0],     [90,30,0], [70,-130,0] , [-60,-130,0]] ;
 elec_custom  = ["ELEC.BOX", 410,   310,   59 ,   6,     false,  [-84,146.5,0], [-85,70,0],      [-85,-40,0],      [90,30,0], [70,-130,0] , [-90,-140,0]] ;
 
 // ENCLOSURE BOX - size and shape - left unconstrained from the frame
