@@ -2,7 +2,10 @@
 include <colors.scad>
 include <prefs.scad>
 include <constants.scad>
+use <validation.scad>
+use <neucore.scad>
 include <nopscadlib/vitamins/rails.scad>
+include <nopscadlib/vitamins/stepper_motors.scad>
 
 // *************************************************************************************************************************************************
 // USER DEFINED
@@ -58,6 +61,7 @@ leadscrew_rc300zlt  = ["LEADSCREW_SPECS", 700, 8];
 leadscrew_rc_zlplus = ["LEADSCREW_SPECS", 420, 8];
 leadscrew_zl4040    = ["LEADSCREW_SPECS", 500, 8];
 leadscrew_rc_custom = ["LEADSCREW_SPECS", 420, 8];
+
 // BED
 //             name  bed_plate_size   motor space  bed_overall_size  bed thickness
 bed_rc300   = ["BED", [325, 342],      255,        [335, 342],        0.25 * inch];
@@ -74,9 +78,7 @@ extrusion20 = ["2020 Extrusion", 20, 4];
 extrusion30 = ["3030 Extrusion", 30, 5];
 extrusion40 = ["4040 Extrusion", 40, 6];
 
-
 // *************************************************************************************************************************************************
-
 
 // Still need to clean up everything below here
 bed_offset = [0, -12.5]; // How far to offset the bed from center of frame
@@ -126,178 +128,10 @@ function ssr_placement()    = $elecbox[10] ;
 function rpi_placement()    = $elecbox[11] ;
 function enclosure_size()   = $enclosure_size ;
 
-
 function extrusion_width      (extrusion_type = $extrusion_type) = extrusion_type[1];
 function extrusion_screw_size (extrusion_type = $extrusion_type) = extrusion_type[2];
 
 // CONSTRAINTS
 function motor_pulley_link() = frame_size().y / 2 - rail_height(rail_profiles().x) - carriage_height(rail_profiles().x) - extrusion_width() ;
-
-
-// ORIGINAL RAILCORE II ZL
-module rc300zl(position = [0, 0, 0]) {
-  $front_window_size  = front_window_zl;
-  $extrusion_type     = extrusion15;
-  $NEMA_XY            = NEMA17;
-  $NEMA_Z             = NEMA17;
-  $frame_size         = frame_rc300zl;
-  $rail_specs         = rails_rc300zl;
-  $leadscrew_specs    = leadscrew_rc300zl ;
-  $bed                = bed_rc300;
-  $elecbox            = elec_ZL ; //electronics box size and placements
-  $branding_name      = "Original ZL";
-  $enclosure_size     = enclosure_rc300zl;
-  validate();
-  enclosure();
-  kinematics(position);
-  electronics_box_contents();
-  electronics_box ();
-  *top_enclosure();
-}
-
-// ORIGINAL RAILCORE II ZLT
-module rc300zlt(position = [0, 0, 0]) {
-  $front_window_size = front_window_zlt;
-  $extrusion_type = extrusion15;
-  $NEMA_XY = NEMA17;
-  $NEMA_Z = NEMA17;
-  $frame_size = frame_rc300zlt;
-  $rail_specs = rails_rc300zlt;
-  $leadscrew_specs = leadscrew_rc300zlt ;
-  $bed = bed_rc300;
-  $elecbox = elec_ZLT ; //electronics box size and placements
-  $branding_name = "Original ZLT";
-  $enclosure_size = enclosure_rc300zl;
-  validate();
-  enclosure();
-  kinematics(position);
-  electronics_box_contents();
-  electronics_box ();
-  top_enclosure();
-}
-
-// CHEESEANDHAM'S "ZL+"
-module zlplus(position = [0, 0, 0]) {
-  $front_window_size = front_window_zl;
-  $extrusion_type = extrusion15;
-  $NEMA_XY = NEMA23;
-  $NEMA_Z = NEMA17;
-  $frame_size = frame_rc300_zlplus;
-  $rail_specs = rails_zlplus;
-  $leadscrew_specs = leadscrew_rc_zlplus;
-  $bed = bed_rc300;
-  $elecbox = elec_zlplus ; //electronics box size and placements
-  $branding_name = "ZL+";
-  $enclosure_size = enclosure_zlplus;
-  validate();
-  enclosure();
-  kinematics(position);
-  electronics_box_contents();
-  translate ([0,0,-20]) electronics_box ();
-  top_enclosure();
-}
-
-
-
-// RAILCORE II ZL improvement playground
-module rc300zlv2(position = [0, 0, 0]) {
-  $front_window_size = front_window_zl;
-  $extrusion_type = extrusion15;
-  $NEMA_XY = NEMA17;
-  $NEMA_Z = NEMA17;
-  $frame_size = frame_rc300zl;
-  $rail_specs = rails_rc300zl;
-  $leadscrew_specs = leadscrew_rc300zl ;
-  $bed = bed_rc300;
-  $elecbox = elec_new_ZL ; //electronics box size and placements
-  $branding_name = "ZLv2";
-  $enclosure_size = enclosure_rc300zl;
-  validate();
-  enclosure();
-  kinematics(position);
-  electronics_box_contents();
-  electronics_box ();
-  top_enclosure();
-}
-
-
-
-// ABSURDO 4040 EXTRUSION RAILCORE
-module rc300zl40(position = [0, 0, 0]) {
-  $front_window_size = front_window_zl;
-  $extrusion_type = extrusion40;
-  $NEMA_XY = NEMA23;
-  $NEMA_Z = NEMA17;
-  $frame_size = frame_rc300zl4040;
-  $rail_specs = rails_rc300zl4040;
-  $leadscrew_specs = leadscrew_zl4040 ;
-  $bed = bed_custom;
-  $elecbox = elec_custom ; //electronics box size and placements
-  $branding_name = "4040 ZL";
-  $enclosure_size = enclosure_rc300zl4040;
-  validate();
-  enclosure();
-  kinematics(position);
-  electronics_box_contents();
-  electronics_box ();
-  top_enclosure();
-}
-
-
-// TINYCORE - based on a bit of info about the bed :)
-module tinycore(position = [0, 0, 0]) {
-  //                            name       sizeXY   depth thick
-  $front_window_size =   ["WINDOW_TYPE", [245, 210], 10, [0, 5]];
-  $extrusion_type = extrusion15;
-  $NEMA_XY = NEMA23;
-  $NEMA_Z = NEMA17;
-  //             sizeX sizeY sizeZ
-  $frame_size = [315, 280, 325];
-  //            sizeX  Xtype  sizeY  Ytype    sizeZ Ztype
-  $rail_specs = [[225, MGN12], [225, MGN12], [280, MGN12]];
-  //                     Name           height diameter
-  $leadscrew_specs = ["LEADSCREW_SPECS", 280,  8];
-  //       name  bed_plate_size   motor space  bed_overall_size  bed thickness
-  $bed  = ["BED", [150, 167],      100,        [160, 342],        0.25 * inch];
-  // ELECTRONICS BOX ALONG WITH  & ELECTRONICS & CABLE PLACEMENT -  placement of parts on right panel with X/Y as centre
-  //                name       sizeX  sizeY  depth thick, lasercut cable_bundle    DuetE            Duex              PSU        SSR              RPi
-  $elecbox      = ["ELEC.BOX", 118.9, 58.9, 59 ,   6,     true,   [-84,126.5,0], [-84.82,50.5,0], [-84.82,-59.5,0], [60,00,0],  [145,50,0] , [-90,-140,0]] ;
-  $branding_name = "TinyCore";
-  $enclosure_size = [315, 280, 225];
-  validate();
-  enclosure();
-  kinematics(position);
-  *electronics_box_contents();
-  *electronics_box ();
-  top_enclosure();
-}
-
-
-// CUSTOMCORE FOR DEBUGGING/QUICK RENDERING
-module customcore(position = [0, 0, 0]) {
-  $front_window_size = front_window_zl;
-  $extrusion_type = extrusion15;
-  $NEMA_XY = NEMA17;
-  $NEMA_Z = NEMA17;
-  $frame_size = frame_rc300_custom;
-  $rail_specs = rails_custom;
-  $leadscrew_specs = leadscrew_rc_custom;
-  $bed = bed_rc300;
-  $elecbox = elec_custom ; //electronics box size and placements
-  $branding_name = "ZL+";
-  $enclosure_size = enclosure_custom;
-  validate();
-  frame();
-  all_side_panels();
-  *hinges();
-  *doors();
-  feet(height=50);
-  kinematics(position);
-  electronics_box_contents();
-  electronics_box ();
-  *top_enclosure();
-}
-
-
 
 $draft = true;

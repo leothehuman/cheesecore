@@ -10,7 +10,7 @@ panel_outside_radius=panel_radius();
 // FIXME: Could add some fileting?
 
 // Modeled this foot upside down both for easier printing and because it's a little easier to think about.
-module inverted_foot(height) {
+module inverted_foot(height=50) {
   extrusion = extrusion_width();
   assert(extrusion != undef, "Unable to figure out extrusion size");
   color(printed_part_color())
@@ -67,7 +67,8 @@ module foot_base_profile(extrusion_width) {
   }
 }
 
-module foot(extrusion_type = $extrusion_type, height) {
+// This just flips and translates the foot for easy insertion into the assembled model.  No other manipulation of the part should happen here.
+module foot(height = 50) {
   assert(height != undef, "Foot height is required");
   translate([0, 0, height]) mirror([0,0,-1]) inverted_foot(height);
 }

@@ -18,7 +18,8 @@ use <top_enclosure_side_panels.scad>
 use <top_enclosure_frame.scad>
 use <xy_motion.scad>
 use <y_carriage.scad>
-
+use <standard_models.scad>
+use <experimental_models.scad>
 
 ver = version();
 if(ver[0]<2019||(ver[0]==2019&&ver[1]<5)) {
@@ -57,11 +58,23 @@ module top_enclosure() {
   printed_interface_arrangement();
 }
 
+module printer(position = [0, 0, 0]) {
+  validate();
+  enclosure();
+  kinematics(position);
+  electronics_box_contents();
+  translate ([0,0,-20]) electronics_box ();
+  top_enclosure();
+}
+
 *tinycore(position = [40, 110, 130]);
-zlplus(position = [40, 110, 130]);
+*zlplus(position = [40, 110, 130]);
 *customcore(position = [40, 110, 130]);
 *translate([0, 800, 0]) rc300zl(position = [80, 90, 30]);
 *translate([800, 0, 0]) rc300zlt(position = [150, 150, 130]);
 *translate([0, 800, 0]) dancore(position = [150, 150, 130]);
 *translate([800, 800, 0]) rc300zlv2(position = [80, 90, 30]);
 *translate([800, 800, 0]) rc300zl40();
+
+zlplus([0, 0, 0])
+  printer();

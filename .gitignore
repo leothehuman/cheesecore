@@ -12,3 +12,4 @@ times.txt
 *.echo
 prefs.scad
 renders/*
+artifacts/*
