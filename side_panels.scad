@@ -79,18 +79,48 @@ module bottom_panel() {
         mirror_y() {
           translate([-frame_size().x / 2 + extrusion_width() + leadscrew_x_offset , bed_ear_spacing() / 2, 0])
             motor_holes();
+
+
+      /*  mirror_x(){
+        #translate([frame_size().x / 2 - extrusion_width() * 1.5 - 2 * leadscrew_x_offset,frame_size().y / 4, -40])
+            cylinder (d=3,h=80);
+        #translate([frame_size().x / 2 - extrusion_width() * 1.5 - 2 * leadscrew_x_offset,frame_size().y/2 - panel_thickness() - extrusion_width() * 2  , -40])
+                cylinder (d=3,h=80);
+            }
+            */
+
         }
         // right side holes
         translate([frame_size().x / 2 - extrusion_width() - leadscrew_x_offset, 0, 0])
           motor_holes();
       }
-
       // Deboss a name in the bottom panel
       deboss_depth = 3;
       translate([0, -frame_size().y/2 + extrusion_width() + 35, panel_thickness() - deboss_depth + epsilon])
         linear_extrude(deboss_depth)
           text($branding_name, halign="center", size=35);
     }
+    x = frame_size().x;
+    y = frame_size().y;
+    extent_x = x - 2 * panel_screw_offset();
+    extent_y = y - 2 * panel_screw_offset();
+
+    // How many screws in each direction
+    screws_x = ceil(extent_x / max_panel_screw_spacing()) + 1;
+    screws_y = ceil(extent_y / max_panel_screw_spacing()) + 1;
+
+    // How far between screws
+    screw_spacing_x = extent_x / (screws_x - 1);
+    screw_spacing_y = extent_y / (screws_y - 1);
+
+    mirror_x() {
+      for (a =[0:(screws_y - 1)]) {
+        translate ([frame_size().x / 2 - extrusion_width() * 1.5 - 2 * leadscrew_x_offset,-y / 2 + panel_screw_offset() + (screw_spacing_y * a), -epsilon])
+          // FIXME - this should be a hole not a cylinder
+          cylinder(h=panel_thickness() + 2 * epsilon + 20, d=clearance_hole_size(extrusion_screw_size()));
+      }
+    }
+
   }
 }
 
