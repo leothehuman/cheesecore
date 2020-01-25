@@ -1,4 +1,5 @@
 // vim: set nospell:
+use <prefs.scad>
 WOODY=0;
 MURDERED=1;
 

@@ -12,7 +12,7 @@ $draft = true;
 // FRAME - either specify frame size complete or specify extrusion sizes and addon the "framecornercubes()""
 //                        sizeX sizeY sizeZ
 //Standard
-frame_rc300zl           = [460, 425, 415] + framecornercubes();
+frame_rc300zl           = [300, 300, 300] + framecornercubes();
 frame_rc300zlt          = [460, 425, 715] + framecornercubes();
 
 //Experimental
@@ -48,7 +48,7 @@ function max_panel_screw_spacing() = 100 ;
 // FRONT WINDOW / DOOR
 //                            name       sizeXY   depth thick
 function acrylic_door_thickness() = 0.25 * inch ; // EU would be 6mm
-front_window_zl      = ["WINDOW_TYPE", [420, 385], 10, [0, 5]];
+front_window_zl      = ["WINDOW_TYPE", [260, 270], 10, [0, 5]];
 front_window_zlt     = ["WINDOW_TYPE", [410, 645], 10, [0, 0]];
 
 front_window_custom  = ["WINDOW_TYPE", [420, 385], 10, [0, 0]];
@@ -57,7 +57,7 @@ front_window_custom  = ["WINDOW_TYPE", [420, 385], 10, [0, 0]];
 // RAILS
 //                  sizeX  Xtype  sizeY  Ytype    sizeZ Ztype
 //Standard
-rails_rc300zl     = [[400, MGN12], [400, MGN12], [400, MGN12]];
+rails_rc300zl     = [[240, MGN12], [275, MGN12], [280, MGN12]];
 rails_rc300zlt    = [[400, MGN12], [400, MGN12], [700, MGN12]];
 //Experimental
 
@@ -125,7 +125,7 @@ leadscrew_rc_custom     = ["LEADSCREW_SPECS", 420, 8,     4,                 16]
 // BED
 //             name  bed_plate_size   motor space  bed_overall_size  bed thickness
 //Standard
-bed_rc300   = ["BED", [325, 342],      255,        [335, 342],        0.25 * inch];
+bed_rc300   = ["BED", [200, 250],      255,        [210, 250],        0.25 * inch];
 //Experimental
 bed_tinycore= ["BED", [150, 167],      100,        [160, 167],        0.25 * inch];
 bed_custom  = ["BED", [425, 442],      295,        [435, 442],        8];
